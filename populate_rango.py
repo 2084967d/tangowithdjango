@@ -8,53 +8,53 @@ from rango.models import Category, Page
 
 
 def populate():
-    python_cat = add_cat(name='Python',views=128, likes=64)
+    python_cat = add_cat(name='Python',views=128,likes=64)
 
-    my_cat = add_cat(name='2084967d', views =0, likes=0)
+    my_cat = add_cat(name='2084967d',views=0,likes=0)
 
     add_page(cat=python_cat,
         title="Official Python Tutorial",
-        url="http://docs.python.org/2/tutorial/")
+        url="http://docs.python.org/2/tutorial/",views=0)
 
     add_page(cat=python_cat,
         title="How to Think like a Computer Scientist",
-        url="http://www.greenteapress.com/thinkpython/")
+        url="http://www.greenteapress.com/thinkpython/",views=0)
 
     add_page(cat=python_cat,
         title="Learn Python in 10 Minutes",
-        url="http://www.korokithakis.net/tutorials/python/")
+        url="http://www.korokithakis.net/tutorials/python/",views=0)
 
-    django_cat = add_cat(name="Django", views=64, likes=32)
+    django_cat = add_cat(name="Django",views=64,likes=32)
 
     add_page(cat=django_cat,
         title="Official Django Tutorial",
-        url="https://docs.djangoproject.com/en/1.5/intro/tutorial01/")
+        url="https://docs.djangoproject.com/en/1.5/intro/tutorial01/",views=0)
 
     add_page(cat=django_cat,
         title="Django Rocks",
-        url="http://www.djangorocks.com/")
+        url="http://www.djangorocks.com/",views=0)
 
     add_page(cat=django_cat,
         title="How to Tango with Django",
-        url="http://www.tangowithdjango.com/")
+        url="http://www.tangowithdjango.com/",views=0)
 
-    frame_cat = add_cat(name="Other Frameworks", views=32, likes=16)
+    frame_cat = add_cat(name="Other Frameworks",views=32,likes=16)
 
     add_page(cat=frame_cat,
         title="Bottle",
-        url="http://bottlepy.org/docs/dev/")
+        url="http://bottlepy.org/docs/dev/",views=0)
 
     add_page(cat=frame_cat,
         title="Flask",
-        url="http://flask.pocoo.org")
+        url="http://flask.pocoo.org",views=0)
 
     add_page(cat=my_cat,
         title="GitHub Page",
-        url="https://github.com/2084967d/")
+        url="https://github.com/2084967d/",views=0)
 
     add_page(cat=my_cat,
         title="Python Anywhere Page",
-        url="https://www.pythonanywhere.com/user/2084967d/")
+        url="https://www.pythonanywhere.com/user/2084967d/",views=0)
 
 
 
@@ -63,12 +63,17 @@ def populate():
         for p in Page.objects.filter(category=c):
             print "- {0} - {1}".format(str(c), str(p))
 
-def add_page(cat, title, url,views):
-    p = Page.objects.get_or_create(category=cat, title=title, url=url, views=views)[0]
+def add_page(cat, title, url,views=0):
+    p = Page.objects.get_or_create(category=cat,title=title,url=url,views=views)[0]
+    p.views = views
+    p.save()
     return p
 
 def add_cat(name, views, likes):
-    c = Category.objects.get_or_create(name=name, views=views, likes=likes)[0]
+    c = Category.objects.get_or_create(name=name)[0]
+    c.views = views
+    c.likes = likes
+    c.save()
     return c
 
 # Start execution here!
